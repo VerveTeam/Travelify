@@ -1,0 +1,5 @@
+backend/env
+backend/frugaloobackend/.env
+__pycache__/
+*.py[cod]
+frugaloo/.env
