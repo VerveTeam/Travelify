@@ -61,67 +61,78 @@ function App() {
     };
   }, []);
 
-  if (loading || !imageLoaded) { // Display loading spinner until both session and image are loaded
+  if (loading || !imageLoaded) {
+    // Display loading spinner until both session and image are loaded
     return (
-      <div className="flex justify-center items-center pt-[300px] font-lato">
-        <span className="loading loading-spinner loading-lg mr-5 text-custom-blue"></span>
+      <div className='flex justify-center items-center pt-[300px] font-lato'>
+        <span className='loading loading-spinner loading-lg mr-5 text-custom-blue'></span>
         Loading Travelify..
       </div>
     );
   }
 
-  if (!session) {
-    return <Login />;
-  }
+  // if (!session) {
+  //   return <Login />;
+  // }
 
   return (
     <BrowserRouter>
       <div
-        className="min-h-screen bg-cover bg-center"
+        className='min-h-screen bg-cover bg-center'
         style={{
           backgroundImage: `url(${HeroImage})`, // Apply background image only after it's loaded
         }}
       >
         <Navbar loggedInUser={loggedInUser} />
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} />
-          <Route
-            path="/planinput"
-            element={
-              <PlanInput
-                loggedInUser={loggedInUser}
-                budget={budget}
-                setBudget={setBudget}
+          <Route path='/' element={<Home />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/signup' element={<SignUp />} />
+          {loggedInUser && (
+            <>
+              <Route
+                path='/planinput'
+                element={
+                  <PlanInput
+                    loggedInUser={loggedInUser}
+                    budget={budget}
+                    setBudget={setBudget}
+                  />
+                }
               />
-            }
-          />
-          <Route
-            path="/plan/:tripId"
-            element={
-              <Plan
-                loggedInUser={loggedInUser}
-                budget={budget}
-                onLocateClick={setSelectedDayData}
+              <Route
+                path='/plan/:tripId'
+                element={
+                  <Plan
+                    loggedInUser={loggedInUser}
+                    budget={budget}
+                    onLocateClick={setSelectedDayData}
+                  />
+                }
               />
-            }
-          />
+              <Route
+                path='/myfinances'
+                element={<PromptInput loggedInUser={loggedInUser} />}
+              />
+              <Route
+                path='/mytrips'
+                element={<Trip loggedInUser={loggedInUser} />}
+              />
+              <Route
+                path='/locate/:tripId/:dayId'
+                element={
+                  <Locate
+                    loggedInUser={loggedInUser}
+                    dayData={selectedDayData}
+                  />
+                }
+              />
+            </>
+          )}
+
           <Route
-            path="/myfinances"
-            element={<PromptInput loggedInUser={loggedInUser} />}
-          />
-          <Route
-            path="/mytrips"
-            element={<Trip loggedInUser={loggedInUser} />}
-          />
-          <Route
-            path="/Faqs"
+            path='/Faqs'
             element={<Finance loggedInUser={loggedInUser} />}
-          />
-          <Route
-            path="/locate/:tripId/:dayId"
-            element={<Locate loggedInUser={loggedInUser} dayData={selectedDayData} />}
           />
         </Routes>
       </div>

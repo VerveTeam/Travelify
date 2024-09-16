@@ -45,7 +45,7 @@ class Preplan(APIView):
             number_of_days = request.data.get("number_of_days")
             budget = request.data.get("budget")
             additional_preferences = request.data.get("additional_preferences")
-            places_api_key = os.environ.get("GOOGLE_PLACES")
+            places_api_key = ""
             places_url = f"https://maps.googleapis.com/maps/api/place/textsearch/json?query={stay_details}&key={places_api_key}&type=tourist_attraction"
             places_response = requests.get(places_url)
             places_data = places_response.json()
@@ -183,7 +183,7 @@ class GenerateFinalPlan(APIView):
         Returns:
         - Dictionary containing restaurant details for each place
         """
-        api_key = os.environ.get("GOOGLE_PLACES")
+        api_key = ""
         radius = 1500
         results = {}
 
@@ -379,7 +379,7 @@ class GetPhotosForLocations(APIView):
     def get_photo_reference(self, location_name):
         url = "https://places.googleapis.com/v1/places:searchText"
         headers = {
-            "X-Goog-Api-Key": os.environ.get("GOOGLE_PLACES"),
+            "X-Goog-Api-Key": "",
             "X-Goog-FieldMask": "places.displayName,places.photos",
         }
         body = {"textQuery": location_name, "pageSize": 1}
@@ -571,7 +571,7 @@ class GeminiSuggestions(APIView):
     def fetch_nearby_preferences(self, lat_long_values, preferences):
         preferences = preferences.strip()
 
-        api_key = os.environ.get("GOOGLE_PLACES")
+        api_key = ""
         radius = 1500
         results = {}
 
