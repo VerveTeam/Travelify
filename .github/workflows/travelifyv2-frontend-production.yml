@@ -13,6 +13,7 @@ jobs:
   # You should configure this environment as close as possible to the production environment, e.g. using Ubuntu for Linux apps, using the same Node version
   build:
     runs-on: ubuntu-latest
+    environment: Production
     # Fetch environment variables from the production environment
     env:
       VITE_BACKEND_URL: "https://travelifybackend.azurewebsites.net/"
@@ -64,9 +65,4 @@ jobs:
           publish-profile: ${{ secrets.TRAVELIFY_FRONTEND_APP }} # Publish profile should always be stored as secrets in your repository Settings - Secrets and variables - Actions - secrets
           package: ./node-app
 
-    # Fetch environment variables from the production environment
-    env:
-      VITE_BACKEND_URL: ${{ secrets.VITE_BACKEND_URL }}
-      VITE_GOOGLE_MAPS_API_KEY: ${{ secrets.VITE_GOOGLE_MAPS_API_KEY }}
-      VITE_SUPABASE_CLIENT: ${{ secrets.VITE_SUPABASE_CLIENT }}
-      VITE_SUPABASE_SECRET: ${{ secrets.VITE_SUPABASE_SECRET }}
+    
