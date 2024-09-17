@@ -1,4 +1,4 @@
-name: Travelifyv2-Frontend-Production
+name: Travelifyv2-Frontend-Dev
 
 # Run the workflow whenever a change is pushed into the feature/deployment-pipelines branch
 on:
