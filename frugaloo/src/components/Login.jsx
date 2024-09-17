@@ -1,15 +1,18 @@
 import { useState, useEffect } from "react";
 import { createClient } from "@supabase/supabase-js";
 import { Auth } from "@supabase/auth-ui-react";
+import { useNavigate } from "react-router-dom";
 
 const supabase = createClient(
-  "https://srqijewflsvgaffwybfj.supabase.co/",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNycWlqZXdmbHN2Z2FmZnd5YmZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjU5MDY1MjAsImV4cCI6MjA0MTQ4MjUyMH0.GOzkNzj9XB2J3Uk-4n7bh4btZrWDLfbVelIFpuUhpB0"
+  process.env.VITE_SUPABASE_CLIENT,
+  process.env.VITE_SUPABASE_SECRET
 );
 
 function Login() {
   const [session, setSession] = useState(null);
   const [loggedInUser, setLoggedInUser] = useState(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     supabase.auth.getSession().then(async ({ data: { session } }) => {
@@ -64,9 +67,8 @@ function Login() {
         </div>
       </>
     );
-  } else {
-    return <div className='text-white'>Logged in: {loggedInUser}!</div>;
   }
+  return navigate("/");
 }
 
 export default Login;

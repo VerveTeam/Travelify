@@ -8,8 +8,8 @@ import addIcon from "../assets/addIcon.png";
 import { useNavigate } from "react-router-dom";
 
 const supabase = createClient(
-  "https://srqijewflsvgaffwybfj.supabase.co/",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNycWlqZXdmbHN2Z2FmZnd5YmZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjU5MDY1MjAsImV4cCI6MjA0MTQ4MjUyMH0.GOzkNzj9XB2J3Uk-4n7bh4btZrWDLfbVelIFpuUhpB0"
+  process.env.VITE_SUPABASE_CLIENT,
+  process.env.VITE_SUPABASE_SECRET
 );
 
 function Navbar({ loggedInUser }) {

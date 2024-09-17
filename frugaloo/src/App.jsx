@@ -71,10 +71,6 @@ function App() {
     );
   }
 
-  // if (!session) {
-  //   return <Login />;
-  // }
-
   return (
     <BrowserRouter>
       <div
