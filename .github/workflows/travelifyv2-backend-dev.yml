@@ -1,4 +1,4 @@
-name: Travelifyv2-Backend-Production
+name: Travelifyv2-Backend-Dev
 
 on:
   push:
