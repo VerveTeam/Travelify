@@ -70,6 +70,6 @@ jobs:
         uses: azure/webapps-deploy@v3
         id: deploy-to-webapp
         with:
-          app-name: 'travelifybackend'
+          app-name: 'travelifybackenddev'
           slot-name: 'production'
           publish-profile: ${{ secrets.TRAVELIFY_DEV_BACKEND_APP}}
