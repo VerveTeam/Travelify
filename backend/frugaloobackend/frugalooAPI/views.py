@@ -1013,129 +1013,63 @@ SAMPLE_OUTPUT 1:
     "1": [
       {{
         "place_name": "Marina Beach",
-        "description": "Marina Beach is a must-visit in Chennai, especially in the evening. Enjoy the cool sea breeze and watch the sunset.",
+        "description": "Marina Beach is a must-visit in Chennai, especially in the evening.",
         "TOE": "2 hours",
         "lat_long": "13.0546, 80.2717"
       }},
       {{
         "place_name": "Bismillah Briyani",
-        "description": "Enjoy a delicious and affordable biryani at Bismillah Briyani, a popular spot for local flavors.",
+        "description": "Enjoy a delicious and affordable biryani at Bismillah Briyani.",
         "TOE": "1 hour",
         "lat_long": "13.0598, 80.2746"
       }},
       {{
-        "place_name": "Beyond Indus",
-        "description": "Indulge in authentic North Indian cuisine at Beyond Indus, known for its flavorful dishes and warm ambiance.",
-        "TOE": "1.5 hours",
-        "lat_long": "13.0614, 80.2639"
-      }},
-      {{
         "place_name": "Kapaleeshwarar Temple",
-        "description": "This ancient Hindu temple is known for its intricate architecture. Visit in the morning or afternoon to avoid the crowds.",
+        "description": "This ancient Hindu temple is known for its intricate architecture.",
         "TOE": "1.5 hours",
         "lat_long": "13.0502, 80.2691"
-      }},
-      {{
-        "place_name": "The Madras Crocodile Bank",
-        "description": "Visit this unique reptile park in the afternoon or evening. Learn about crocodiles and other reptiles.",
-        "TOE": "2 hours",
-        "lat_long": "12.9841, 80.2153"
       }}
     ],
     "2": [
       {{
         "place_name": "Fort St. George",
-        "description": "Explore this historic fort in the morning to learn about its rich history.",
+        "description": "Explore this historic fort to learn about its rich history.",
         "TOE": "2 hours",
         "lat_long": "13.0824, 80.2728"
       }},
       {{
-        "place_name": "The Tandoori Kitchen",
-        "description": "Enjoy traditional Indian flavors at The Tandoori Kitchen, known for its succulent tandoori dishes.",
-        "TOE": "1.5 hours",
-        "lat_long": "13.0809, 80.2699"
-      }},
-      {{
         "place_name": "Government Museum",
-        "description": "Visit this museum to see a collection of artifacts from Tamil Nadu's history and culture. This is best visited in the afternoon.",
+        "description": "Visit this museum to see artifacts from Tamil Nadu's history.",
         "TOE": "2 hours",
         "lat_long": "13.0530, 80.2704"
-      }},
-      {{
-        "place_name": "Parthasarathy Temple",
-        "description": "This temple is dedicated to Lord Krishna and is a popular pilgrimage site. It is best visited in the evening.",
-        "TOE": "1.5 hours",
-        "lat_long": "13.0554, 80.2656"
-      }},
-      {{
-        "place_name": "Beyond Indus",
-        "description": "Indulge in authentic North Indian cuisine at Beyond Indus, known for its flavorful dishes and warm ambiance.",
-        "TOE": "1.5 hours",
-        "lat_long": "13.0614, 80.2639"
       }}
     ],
     "3": [
       {{
         "place_name": "Anna Salai",
-        "description": "Explore the bustling Anna Salai for shopping and dining. It's best to visit in the afternoon or evening.",
+        "description": "Explore the bustling Anna Salai for shopping and dining.",
         "TOE": "3 hours",
         "lat_long": "13.0680, 80.2562"
       }},
       {{
-        "place_name": "Dahlia Restaurant",
-        "description": "Enjoy a fine dining experience at Dahlia Restaurant, known for its elegant ambiance and delicious cuisine.",
-        "TOE": "2 hours",
-        "lat_long": "13.0626, 80.2455"
-      }},
-      {{
         "place_name": "San Thome Basilica",
-        "description": "This historic church is a popular pilgrimage site. Visit in the morning or afternoon for a peaceful experience.",
+        "description": "This historic church is a popular pilgrimage site.",
         "TOE": "1.5 hours",
         "lat_long": "13.0645, 80.2689"
-      }},
-      {{
-        "place_name": "VGP Universal Kingdom",
-        "description": "Enjoy a day of fun and entertainment at this amusement park. It's best to visit in the afternoon or evening.",
-        "TOE": "4 hours",
-        "lat_long": "12.9915, 80.2144"
-      }},
-      {{
-        "place_name": "Bismillah Briyani",
-        "description": "Enjoy a delicious and affordable biryani at Bismillah Briyani, a popular spot for local flavors.",
-        "TOE": "1 hour",
-        "lat_long": "13.0598, 80.2746"
       }}
     ],
     "4": [
       {{
         "place_name": "Marina Beach",
-        "description": "Marina Beach is a must-visit in Chennai, especially in the evening. Enjoy the cool sea breeze and watch the sunset.",
+        "description": "Marina Beach is a must-visit in Chennai, especially in the evening.",
         "TOE": "2 hours",
         "lat_long": "13.0546, 80.2717"
       }},
       {{
-        "place_name": "The Madras Crocodile Bank",
-        "description": "Visit this unique reptile park in the afternoon or evening. Learn about crocodiles and other reptiles.",
-        "TOE": "2 hours",
-        "lat_long": "12.9841, 80.2153"
-      }},
-      {{
-        "place_name": "Kapaleeshwarar Temple",
-        "description": "This ancient Hindu temple is known for its intricate architecture. Visit in the morning or afternoon to avoid the crowds.",
-        "TOE": "1.5 hours",
-        "lat_long": "13.0502, 80.2691"
-      }},
-      {{
         "place_name": "Government Museum",
-        "description": "Visit this museum to see a collection of artifacts from Tamil Nadu's history and culture. This is best visited in the afternoon.",
+        "description": "Visit this museum to see artifacts from Tamil Nadu's history.",
         "TOE": "2 hours",
         "lat_long": "13.0530, 80.2704"
-      }},
-      {{
-        "place_name": "Fort St. George",
-        "description": "Explore this historic fort in the morning to learn about its rich history.",
-        "TOE": "2 hours",
-        "lat_long": "13.0824, 80.2728"
       }}
     ],
     "5": [
@@ -1146,31 +1080,14 @@ SAMPLE_OUTPUT 1:
         "lat_long": "13.0028, 80.1836"
       }},
       {{
-        "place_name": "Qutab Shahi Tombs",
-        "description": "Explore the magnificent Qutab Shahi Tombs, a UNESCO World Heritage Site in Hyderabad.",
-        "TOE": "2 hours",
-        "lat_long": "17.3851, 78.4867"
-      }},
-      {{
-        "place_name": "Birla Mandir",
-        "description": "Visit the serene Birla Mandir, a beautiful Hindu temple dedicated to Lord Venkateswara.",
-        "TOE": "1.5 hours",
-        "lat_long": "17.3839, 78.4741"
-      }},
-      {{
         "place_name": "Charminar",
-        "description": "Admire the iconic Charminar, a historic mosque and a symbol of Hyderabad.",
+        "description": "Admire the iconic Charminar, a symbol of Hyderabad.",
         "TOE": "1.5 hours",
         "lat_long": "17.3609, 78.4740"
-      }},
-      {{
-        "place_name": "Salar Jung Museum",
-        "description": "Explore the rich collection of art and artifacts at the Salar Jung Museum.",
-        "TOE": "2 hours",
-        "lat_long": "17.3638, 78.4712"
       }}
     ]
-  }},
+  }}
+}},
     "changes": "I have added two more days to your trip. Day 4 will be a repeat of Day 1 to allow you to explore more of the city. Day 5 will take you to Hyderabad to experience its rich culture and history. I added MGM Dizzee World in Day 4 to give you a fun day. In Day 5 I added Qutab Shahi Tombs, Birla Mandir, Charminar, and Salar Jung Museum. Enjoy your extended trip!"
 }}
 
@@ -1181,164 +1098,81 @@ SAMPLE_OUTPUT 2:
     "1": [
       {{
         "place_name": "Marina Beach",
-        "description": "Marina Beach is a must-visit in Chennai, especially in the evening. Enjoy the cool sea breeze and watch the sunset.",
+        "description": "A must-visit in Chennai, especially in the evening. Enjoy the sea breeze and sunset.",
         "TOE": "2 hours",
         "lat_long": "13.0546, 80.2717"
       }},
       {{
         "place_name": "Bismillah Briyani",
-        "description": "Enjoy a delicious and affordable biryani at Bismillah Briyani, a popular spot for local flavors.",
+        "description": "Affordable biryani at a popular local spot.",
         "TOE": "1 hour",
         "lat_long": "13.0598, 80.2746"
       }},
       {{
-        "place_name": "Beyond Indus",
-        "description": "Indulge in authentic North Indian cuisine at Beyond Indus, known for its flavorful dishes and warm ambiance.",
-        "TOE": "1.5 hours",
-        "lat_long": "13.0614, 80.2639"
-      }},
-      {{
         "place_name": "Kapaleeshwarar Temple",
-        "description": "This ancient Hindu temple is known for its intricate architecture. Visit in the morning or afternoon to avoid the crowds.",
+        "description": "An ancient Hindu temple known for intricate architecture.",
         "TOE": "1.5 hours",
         "lat_long": "13.0502, 80.2691"
-      }},
-      {{
-        "place_name": "The Madras Crocodile Bank",
-        "description": "Visit this unique reptile park in the afternoon or evening. Learn about crocodiles and other reptiles.",
-        "TOE": "2 hours",
-        "lat_long": "12.9841, 80.2153"
       }}
     ],
     "2": [
       {{
         "place_name": "Elliot's Beach",
-        "description": "Elliot's Beach, also known as Besant Nagar Beach, is a popular beach in Chennai known for its calm waters and beautiful sunset views. It's a great place to relax, enjoy the beach, and watch the sunset.",
+        "description": "Popular for calm waters and sunset views.",
         "TOE": "2 hours",
         "lat_long": "13.0232, 80.2565"
       }},
       {{
-        "place_name": "The Tandoori Kitchen",
-        "description": "Enjoy traditional Indian flavors at The Tandoori Kitchen, known for its succulent tandoori dishes.",
-        "TOE": "1.5 hours",
-        "lat_long": "13.0809, 80.2699"
-      }},
-      {{
         "place_name": "Government Museum",
-        "description": "Visit this museum to see a collection of artifacts from Tamil Nadu's history and culture. This is best visited in the afternoon.",
+        "description": "See a collection of Tamil Nadu's artifacts.",
         "TOE": "2 hours",
         "lat_long": "13.0530, 80.2704"
-      }},
-      {{
-        "place_name": "Parthasarathy Temple",
-        "description": "This temple is dedicated to Lord Krishna and is a popular pilgrimage site. It is best visited in the evening.",
-        "TOE": "1.5 hours",
-        "lat_long": "13.0554, 80.2656"
-      }},
-      {{
-        "place_name": "Beyond Indus",
-        "description": "Indulge in authentic North Indian cuisine at Beyond Indus, known for its flavorful dishes and warm ambiance.",
-        "TOE": "1.5 hours",
-        "lat_long": "13.0614, 80.2639"
       }}
     ],
     "3": [
       {{
         "place_name": "Anna Salai",
-        "description": "Explore the bustling Anna Salai for shopping and dining. It's best to visit in the afternoon or evening.",
+        "description": "Bustling area for shopping and dining.",
         "TOE": "3 hours",
         "lat_long": "13.0680, 80.2562"
       }},
       {{
-        "place_name": "Dahlia Restaurant",
-        "description": "Enjoy a fine dining experience at Dahlia Restaurant, known for its elegant ambiance and delicious cuisine.",
-        "TOE": "2 hours",
-        "lat_long": "13.0626, 80.2455"
-      }},
-      {{
         "place_name": "San Thome Basilica",
-        "description": "This historic church is a popular pilgrimage site. Visit in the morning or afternoon for a peaceful experience.",
+        "description": "A historic church and pilgrimage site.",
         "TOE": "1.5 hours",
         "lat_long": "13.0645, 80.2689"
-      }},
-      {{
-        "place_name": "VGP Universal Kingdom",
-        "description": "Enjoy a day of fun and entertainment at this amusement park. It's best to visit in the afternoon or evening.",
-        "TOE": "4 hours",
-        "lat_long": "12.9915, 80.2144"
-      }},
-      {{
-        "place_name": "Bismillah Briyani",
-        "description": "Enjoy a delicious and affordable biryani at Bismillah Briyani, a popular spot for local flavors.",
-        "TOE": "1 hour",
-        "lat_long": "13.0598, 80.2746"
       }}
     ],
     "4": [
       {{
         "place_name": "Marina Beach",
-        "description": "Marina Beach is a must-visit in Chennai, especially in the evening. Enjoy the cool sea breeze and watch the sunset.",
+        "description": "A must-visit in Chennai, especially in the evening.",
         "TOE": "2 hours",
         "lat_long": "13.0546, 80.2717"
       }},
       {{
-        "place_name": "The Madras Crocodile Bank",
-        "description": "Visit this unique reptile park in the afternoon or evening. Learn about crocodiles and other reptiles.",
-        "TOE": "2 hours",
-        "lat_long": "12.9841, 80.2153"
-      }},
-      {{
-        "place_name": "Kapaleeshwarar Temple",
-        "description": "This ancient Hindu temple is known for its intricate architecture. Visit in the morning or afternoon to avoid the crowds.",
-        "TOE": "1.5 hours",
-        "lat_long": "13.0502, 80.2691"
-      }},
-      {{
         "place_name": "Government Museum",
-        "description": "Visit this museum to see a collection of artifacts from Tamil Nadu's history and culture. This is best visited in the afternoon.",
+        "description": "See a collection of Tamil Nadu's artifacts.",
         "TOE": "2 hours",
         "lat_long": "13.0530, 80.2704"
-      }},
-      {{
-        "place_name": "Fort St. George",
-        "description": "Explore this historic fort in the morning to learn about its rich history.",
-        "TOE": "2 hours",
-        "lat_long": "13.0824, 80.2728"
       }}
     ],
     "5": [
       {{
         "place_name": "MGM Dizzee World",
-        "description": "Enjoy a thrilling day at MGM Dizzee World, a popular amusement park in Chennai.",
+        "description": "A thrilling amusement park in Chennai.",
         "TOE": "4 hours",
         "lat_long": "13.0028, 80.1836"
       }},
       {{
-        "place_name": "Qutab Shahi Tombs",
-        "description": "Explore the magnificent Qutab Shahi Tombs, a UNESCO World Heritage Site in Hyderabad.",
-        "TOE": "2 hours",
-        "lat_long": "17.3851, 78.4867"
-      }},
-      {{
-        "place_name": "Birla Mandir",
-        "description": "Visit the serene Birla Mandir, a beautiful Hindu temple dedicated to Lord Venkateswara.",
-        "TOE": "1.5 hours",
-        "lat_long": "17.3839, 78.4741"
-      }},
-      {{
         "place_name": "Charminar",
-        "description": "Admire the iconic Charminar, a historic mosque and a symbol of Hyderabad.",
+        "description": "An iconic mosque and symbol of Hyderabad.",
         "TOE": "1.5 hours",
         "lat_long": "17.3609, 78.4740"
-      }},
-      {{
-        "place_name": "Salar Jung Museum",
-        "description": "Explore the rich collection of art and artifacts at the Salar Jung Museum.",
-        "TOE": "2 hours",
-        "lat_long": "17.3638, 78.4712"
       }}
     ]
-  }},
+  }}
+}},
   "changes": "I have replaced Fort St George with Elliot's Beach on Day 2 as it's a nearby beach."
 }}
 
@@ -1350,8 +1184,7 @@ Error fetching the original plan SyntaxError: Expected double-quoted property na
     at JSON.parse (<anonymous>)
 
 ### Common mistake 2
-{{"generated_plan": {{"0": [{{"place_name": "Red Fort", "description": "A historic fort complex, a UNESCO World Heritage site. Best time to visit: Morning ", "TOE": "3 hours", "lat_long": "28.6562, 77.2410"}}, {{"place_name": "Chandani Chawk", "description": "Chandani Chawk is a bustling and historic market area. It's a great place to experience the local culture and shop for a variety of items.", "TOE": "2 hours", "lat_long": "28.656181399999998, 77.23070729999999"}}, {{"place_name": "Al-Haj Bakery", "description": "It's a bakery in Chandni Chowk serving delicious desserts at low prices.", "TOE": "1 hour", "lat_long": "28.6537943, 77.22621769999999"}}, {{"place_name": "Humayun's Tomb", "description": 'A magnificent Mughal-era mausoleum. Best time to visit: Afternoon', "TOE": "2 hours", "lat_long": "28.5931, 77.2506"}}, {{"place_name": "India Gate", "description": 'A war memorial and popular gathering spot. Best time to visit: Evening', "TOE": "1.5 hours", "lat_long": "28.6129, 77.2295"}}, {{"restaurant_name": "Cafe Lota", "description": "Cafe Lota is a charming cafe located within the National Crafts Museum. It's known for its delicious Indian cuisine, particularly its thalis, and its peaceful ambiance.", "TOE": "1.5 hours", "lat_long": "28.6134591, 77.2425038"}}, {{"restaurant_name": "Suvidha", "description": "A restaurant serving Indian and Chinese cuisines.", "TOE": "3 hours", "lat_long": "28.64423709999999, 77.2399054"}}], "1": [{{"place_name": "Qutub Minar", "description": 'A towering minaret, another UNESCO World Heritage site. Best time to visit: Morning', "TOE": "2 hours", "lat_long": "28.5244, 77.1855"}}, {{"place_name": "Crescent Mall", "description": "Crescent Mall is a shopping mall located in Lado Sarai, close to Qutub Minar. You can enjoy shopping for a variety of items here.", "TOE": "2 hours", "lat_long": "28.524841, 77.190518"}}, {{"place_name": "Gallery Pioneer", "description": 'A well-regarded art gallery in Delhi known for showcasing contemporary Indian art. Best time to visit: Afternoon', "TOE": "2 hours", "lat_long": "28.5238457, 77.19365479999999"}},{{"place_name": "Lotus Temple", "description": 'A modern architectural marvel in the shape of a lotus flower. Best time to visit: Afternoon', "TOE": "1.5 hours", "lat_long": "28.5535, 77.2588"}}, {{"place_name": "Dilli Haat", "description": 'A vibrant open-air market for handicrafts and food. Best time to visit: Evening', "TOE": "2.5 hours", "lat_long": "28.5722, 77.2206"}}, {{"restaurant_name": "Dramz Delhi", "description": "A high-end bar and restaurant offering modern Indian and international cuisines.", "TOE": "2 hours", "lat_long": "28.5243996, 77.1836545"}}, {{"restaurant_name": "Slice Of Italy", "description": "A restaurant serving Italian dishes.", "TOE": "2.5 hours", "lat_long": "28.581887, 77.227008"}}], "2": [{{"place_name": "Jama Masjid", "description": "One of India's largest mosques. Best time to visit: Morning", "TOE": "2 hours", "lat_long": "28.6507, 77.2334"}}, {{"place_name": "Chandni Chowk", "description": 'A bustling and historic market area. Best time to visit: Afternoon', "TOE": "3 hours", "lat_long": "28.6586, 77.2247"}}, {{"place_name": "Raj Ghat", "description": 'A memorial to Mahatma Gandhi. Best time to visit: Evening', "TOE": "1 hour", "lat_long": "28.6419, 77.2504"}}, {{"restaurant_name": "Jung Bahadur Kachori Wala", "description": "A street food stall known for its kachoris.", "TOE": "3 hours", "lat_long": "28.6556903, 77.2300195"}}, {{"restaurant_name": "Zaika Foods", "description": "A restaurant serving Indian cuisine.", "TOE": "1 hour", "lat_long": "28.6437281, 77.24029279999999"}}, {{"restaurant_name": "Suvidha", "description": "A restaurant serving Indian and Chinese cuisines.", "TOE": "2 hours", "lat_long": "28.64423709999999, 77.2399054"}}, {{"place_name": "Al-Haj Bakery", "description": "It's a bakery in Chandni Chowk serving delicious desserts at low prices.", "TOE": "1 hour", "lat_long": "28.6537943, 77.22621769999999"}}], "3": [{{"place_name": "Akshay Patra Temple", "description": 'A beautiful temple dedicated to Lord Krishna. Best time to visit: Morning', "TOE": "2 hours", "lat_long": "28.6139, 77.2090"}}, {{"place_name": "Garden of Five Senses", "description": 'A serene and picturesque garden. Best time to visit: Afternoon', "TOE": "2.5 hours", "lat_long": "28.5550, 77.1926"}}, {{"place_name": "Connaught Place", "description": 'A central shopping and dining district. Best time to visit: Evening', "TOE": "2 hours", "lat_long": "28.6333, 77.2167"}},{{"restaurant_name": "Mizo Diner", "description": "A restaurant serving Mizo cuisine.", "TOE": "2.5 hours", "lat_long": "28.5617682, 77.19256349999999"}},{{"restaurant_name": "Le Belvedere - Le Meridien", "description": "A fine dining restaurant offering European cuisine.", "TOE": "2 hours", "lat_long": "28.6187522, 77.2179598"}}, {{"restaurant_name": "The Imperial New Delhi", "description": "A historic hotel offering fine dining experiences.", "TOE": "2 hours", "lat_long": "28.62501779999999, 77.21822759999999"}}]}}, "changes": "I've added Al-Haj Bakery to your Day 3 itinerary after dinner as per your request. Enjoy some delicious desserts!"}}
-
+{{  "generated_plan": {{"0": [  {{"place_name": "Red Fort","description": "Historic UNESCO site. Best time: Morning","TOE": "3 hours","lat_long": "28.6562, 77.2410"  }},  {{"place_name": "Chandani Chowk","description": "A bustling historic market for local culture and shopping.","TOE": "2 hours","lat_long": "28.6561, 77.2307"  }},  {{"place_name": "Al-Haj Bakery","description": "A bakery in Chandni Chowk with affordable desserts.","TOE": "1 hour","lat_long": "28.6538, 77.2262"  }},  {{"restaurant_name": "Cafe Lota","description": "A charming cafe known for Indian cuisine and ambiance.","TOE": "1.5 hours","lat_long": "28.6134, 77.2425"  }},  {{"restaurant_name": "Suvidha","description": "Indian and Chinese cuisine.","TOE": "3 hours","lat_long": "28.6442, 77.2399"  }}],"1": [  {{"place_name": "Qutub Minar","description": "UNESCO site, best visited in the morning.","TOE": "2 hours","lat_long": "28.5244, 77.1855"  }},  {{"place_name": "Lotus Temple","description": "Architectural marvel. Best time: Afternoon","TOE": "1.5 hours","lat_long": "28.5535, 77.2588"  }},  {{"restaurant_name": "Dramz Delhi","description": "High-end bar and restaurant for modern cuisines.","TOE": "2 hours","lat_long": "28.5244, 77.1836"  }},  {{"restaurant_name": "Slice Of Italy","description": "Italian cuisine.","TOE": "2.5 hours","lat_long": "28.5818, 77.2270"  }}]  }}}}, "changes": "I've added Al-Haj Bakery to your Day 1 itinerary after visiting Chandani Chawk as per your request. Enjoy some delicious desserts!"}}
 In the above JSON you forgort to enclose the  'A magnificent Mughal-era mausoleum. Best time to visit: Afternoon' in double quotes. The correct JSON would be
 "A magnificent Mughal-era mausoleum. Best time to visit: Afternoon"
 
