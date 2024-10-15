@@ -6,6 +6,7 @@ import google.generativeai as genai
 import os
 import requests
 import re
+from .services import (find_closest_groups, extract_lat_long, fetch_nearby_restaurants, inject_descriptions, merge_restaurants_places, extract_places_and_restaurants)
 from supabase import create_client, Client  # type: ignore
 from .models import UserTripInfo, UserTripProgressInfo, MessageLog
 from .serializers import (
@@ -14,14 +15,11 @@ from .serializers import (
     UserTripProgressSerializer,
     FinanceLogSerializer,
 )
-from asgiref.sync import sync_to_async
 import json
-import random
-import math
-from itertools import combinations
 
+from prompts.description import DESCRIPTION_PROMPT
 
-class Preplan(APIView):
+class GeneratePlan(APIView):
     """
     API view for generating an itinerary based on user information.
 
@@ -40,203 +38,7 @@ class Preplan(APIView):
     - additional_preferences
 
     """
-
-    def extract_lat_long(self, data):
-        """
-        Extracts latitude and longitude values from the provided data.
-
-        Parameters:
-        - data: Dictionary containing trip details with places and their lat/long
-
-        Returns:
-        - List of dictionaries containing day index, place name, and lat/long
-        """
-        lat_long_values = []
-
-        for day_index, day in data.items():
-            for place in day:
-                lat_long_values.append(
-                    {
-                        "day_index": day_index,
-                        "place_name": place["place_name"],
-                        "lat_long": place["lat_long"],
-                    }
-                )
-        return lat_long_values
-
-    def fetch_nearby_restaurants(self, lat_long_values, budget):
-        """
-        Fetches nearby restaurants for given latitude and longitude values.
-
-        Parameters:
-        - lat_long_values: List of dictionaries containing lat/long values for each place
-        - budget: Budget type for filtering restaurants (1: frugal, 2: moderate, 3: expensive)
-
-        Returns:
-        - Dictionary containing restaurant details for each place
-        """
-        api_key = ""
-        radius = 1500
-        results = {}
-
-        # The updated budget mapping for filtering restaurants
-        budget_mapping = {
-            1: {0, 1},  # Frugal: price_level 0 or 1
-            2: {2, 3},  # Moderate: price_level 2 or 3
-            3: {4},  # Expensive: price_level 4
-        }
-
-        for place in lat_long_values:
-            day_index = place["day_index"]
-            place_name = place["place_name"]
-            lat_long = place["lat_long"]
-            lat, lng = lat_long.split(",")
-            url = f"https://maps.googleapis.com/maps/api/place/nearbysearch/json?location={lat},{lng}&radius={radius}&type=restaurant&key="
-            response = requests.get(url)
-            if response.status_code == 200:
-                data = response.json()  # Parse response content as JSON
-                print("NEARBY RESTO RAW", data)
-                # Filter restaurants based on the budget
-                names_with_details = [
-                    {
-                        "name": result["name"],
-                        "latitude": result["geometry"]["location"]["lat"],
-                        "longitude": result["geometry"]["location"]["lng"],
-                        "rating": result.get("rating", "N/A"),
-                        "price_level": result.get("price_level", "N/A"),
-                    }
-                    for result in data["results"]
-                    if "price_level" in result
-                    and result["price_level"] in budget_mapping[budget]
-                ]
-
-                # If no restaurants found in the preferred budget range, fetch restaurants with price_level N/A
-                if not names_with_details:
-                    names_with_details = [
-                        {
-                            "name": result["name"],
-                            "latitude": result["geometry"]["location"]["lat"],
-                            "longitude": result["geometry"]["location"]["lng"],
-                            "rating": result.get("rating", "N/A"),
-                            "price_level": result.get("price_level", "N/A"),
-                        }
-                        for result in data["results"]
-                        if result.get("price_level") is None
-                    ]
-
-                if day_index not in results:
-                    results[day_index] = {}
-                results[day_index][place_name] = names_with_details
-            else:
-                if day_index not in results:
-                    results[day_index] = {}
-                results[day_index][place_name] = {"error": response.status_code}
-
-        return results
-
-    def insert_trip_details(
-        self,
-        user_id,
-        stay_details,
-        number_of_days,
-        budget,
-        additional_preferences,
-        generated_plan,
-        nearby_restaurants,
-        places_description_response,
-    ):
-        """
-        Inserts trip details into the UserTripInfo model.
-
-        Parameters:
-        - user_id: ID of the user
-        - stay_details: Details about the user's stay
-        - number_of_days: Number of days for the trip
-        - budget: Budget for the trip
-        - additional_preferences: Any additional preferences for the trip
-        - generated_plan: The generated plan for the trip
-        - nearby_restaurants: Details of nearby restaurants for each place
-        """
-        UserTripInfo.objects.create(
-            user_id=user_id,
-            stay_details=stay_details,
-            number_of_days=number_of_days,
-            budget=budget,
-            additional_preferences=additional_preferences,
-            generated_plan=generated_plan,
-            nearby_restaurants=nearby_restaurants,
-            places_descriptions=places_description_response,
-        )
-
-    def haversine(self, lat1, lon1, lat2, lon2):
-        # Radius of Earth in kilometers
-        R = 6371.0
-        # Convert latitude and longitude from degrees to radians
-        lat1_rad = math.radians(lat1)
-        lon1_rad = math.radians(lon1)
-        lat2_rad = math.radians(lat2)
-        lon2_rad = math.radians(lon2)
-
-        # Differences in coordinates
-        dlat = lat2_rad - lat1_rad
-        dlon = lon2_rad - lon1_rad
-
-        # Haversine formula
-        a = (
-            math.sin(dlat / 2) ** 2
-            + math.cos(lat1_rad) * math.cos(lat2_rad) * math.sin(dlon / 2) ** 2
-        )
-        c = 2 * math.atan2(math.sqrt(a), math.sqrt(1 - a))
-        distance = R * c
-        return distance
-
-    def find_closest_groups(self,attractions, num_days):
-        def distance(p1, p2):
-            return self.haversine(p1['latitude'], p1['longitude'], p2['latitude'], p2['longitude'])
-        
-        # List to hold the final result
-        result = {}
-        used_places = set()
-        
-        # Generate all combinations of three places
-        all_combinations = list(combinations(attractions, 3))
-        
-        # Sort combinations by the maximum distance between any two places in the group
-        all_combinations.sort(key=lambda x: max(distance(x[i], x[j]) for i in range(3) for j in range(i+1, 3)))
-        
-        # Initialize day index
-        index = 1
-        for comb in all_combinations:
-            if index > num_days:
-                break
-            
-            # Check if any place in the combination has already been used
-            if any(place['name'] in used_places for place in comb):
-                continue
-            
-            if index not in result:
-                result[index] = []
-            
-            group = []
-            for place in comb:
-                group.append({
-                    "place_name": place['name'],
-                    "lat_long": f"{place['latitude']}, {place['longitude']}"
-                })
-                used_places.add(place['name'])
-            
-            result[index].append(group)
-            index += 1
-        
-        # Ensure the result structure conforms to the requirement (nested arrays)
-        formatted_result = {str(i): result.get(i, []) for i in range(1, num_days + 1)}
-        
-        return formatted_result
-
-    def format_json_output(self,data):
-        import json
-        return json.dumps(data, indent=4)
-
+    
     def post(self, request):
         try:
             user_id = request.data.get("user_id")
@@ -244,219 +46,24 @@ class Preplan(APIView):
             number_of_days = request.data.get("number_of_days")
             budget = request.data.get("budget")
             additional_preferences = request.data.get("additional_preferences")
-            # places_api_key = ""
-            # places_url = f"https://maps.googleapis.com/maps/api/place/textsearch/json?query={stay_details}&key=AIzaSyCWQFnhMkl6yEfZrZKZp6gMCfO1YnZf0Ts&type=tourist_attraction"
-            # places_response = requests.get(places_url)
-            # places_data = places_response.json()
-            # print("############## Places Data ################", places_data)
-            tourist_attractions = [
-                {
-                    "name": "Mahakali Caves",
-                    "latitude": 19.1300798,
-                    "longitude": 72.8731738,
-                },
-                {
-                    "name": "Chhatrapati Shivaji Maharaj Vastu Sangrahalaya",
-                    "latitude": 18.9269015,
-                    "longitude": 72.83269159999999,
-                },
-                {
-                    "name": "Kanheri Caves",
-                    "latitude": 19.2078604,
-                    "longitude": 72.9048071,
-                },
-                {
-                    "name": "Jogeshwari Caves",
-                    "latitude": 19.138957,
-                    "longitude": 72.857173,
-                },
-                {
-                    "name": "Elephanta Caves",
-                    "latitude": 18.9633474,
-                    "longitude": 72.9314864,
-                },
-                {"name": "Shiv Fort", "latitude": 19.0465923, "longitude": 72.8676819},
-                {
-                    "name": "Gateway Of India Mumbai",
-                    "latitude": 18.9219841,
-                    "longitude": 72.8346543,
-                },
-                {
-                    "name": "Mumbai selfie point juhu",
-                    "latitude": 19.1039685,
-                    "longitude": 72.8299892,
-                },
-                {
-                    "name": "जुहू चौपाटी",
-                    "latitude": 19.0977745,
-                    "longitude": 72.82623579999999,
-                },
-                {
-                    "name": "Madh Island",
-                    "latitude": 19.1484913,
-                    "longitude": 72.7891606,
-                },
-                {
-                    "name": "Powai dam",
-                    "latitude": 19.1268449,
-                    "longitude": 72.89637859999999,
-                },
-                {
-                    "name": "Hanging Gardens",
-                    "latitude": 18.9565598,
-                    "longitude": 72.80498659999999,
-                },
-                {
-                    "name": "Shivadi fort",
-                    "latitude": 19.0006679,
-                    "longitude": 72.86012649999999,
-                },
-                {
-                    "name": "Dharavi Slum Tour",
-                    "latitude": 19.0407028,
-                    "longitude": 72.84608810000002,
-                },
-                {
-                    "name": "Snow World",
-                    "latitude": 19.0866203,
-                    "longitude": 72.88854979999999,
-                },
-                {"name": "Fort George", "latitude": 18.9412338, "longitude": 72.838527},
-                {
-                    "name": "Sanjay Gandhi National Park",
-                    "latitude": 19.2204535,
-                    "longitude": 72.9128422,
-                },
-                {
-                    "name": "Chhota Kashmir Boat Club",
-                    "latitude": 19.1623258,
-                    "longitude": 72.8731143,
-                },
-                {
-                    "name": "Bandra Sea View",
-                    "latitude": 19.061267,
-                    "longitude": 72.821968,
-                },
-                {
-                    "name": "Mahajan Forest Park",
-                    "latitude": 19.1136329,
-                    "longitude": 72.90899999999999,
-                },
-            ]
+            places_api_key = ""
+            places_url = f"https://maps.googleapis.com/maps/api/place/textsearch/json?query={stay_details}&key={places_api_key}&type=tourist_attraction"
+            places_response = requests.get(places_url)
+            places_data = places_response.json()
             
+            # To test out locally: Comment all the code from line 49 to 52 and paste the tourist_attractons array
+            # Pass the tourist attractions instead of places data
 
-            grouped_attractions = self.find_closest_groups(
-                tourist_attractions, number_of_days
+            grouped_attractions = find_closest_groups(
+                places_data, number_of_days
             )
-            formatted_output = self.format_json_output(grouped_attractions)
            
+            # To test out locally: Paste the restaurants array here.
+            lat_long_values = extract_lat_long(grouped_attractions)
+            updated_grouped_attractions = merge_restaurants_places(grouped_attractions, restaurants)
+            places, restaurants = extract_places_and_restaurants(updated_grouped_attractions)
 
-            nearby_restaurants_str = """
-                        {
-            "1": {
-                "Gateway of India": [
-                {
-                    "name": "Delhi Darbar",
-                    "latitude": 18.9238178,
-                    "longitude": 72.8317462,
-                    "rating": 4,
-                    "price_level": 2
-                },
-                {
-                    "name": "Bademiya",
-                    "latitude": 18.9232359,
-                    "longitude": 72.83252259999999,
-                    "rating": 3.7,
-                    "price_level": 2
-                }
-                ],
-                "Chhatrapati Shivaji Maharaj Vastu Sangrahalaya": [
-                {
-                    "name": "Delhi Darbar",
-                    "latitude": 18.9238178,
-                    "longitude": 72.8317462,
-                    "rating": 4,
-                    "price_level": 2
-                },
-                {
-                    "name": "Bademiya",
-                    "latitude": 18.9232359,
-                    "longitude": 72.83252259999999,
-                    "rating": 3.7,
-                    "price_level": 2
-                }
-                ],
-                "Marine Drive": [
-                {
-                    "name": "Subway",
-                    "latitude": 18.938368,
-                    "longitude": 72.8330572,
-                    "rating": 4,
-                    "price_level": 2
-                },
-                {
-                    "name": "Royal China",
-                    "latitude": 18.9384896,
-                    "longitude": 72.8328156,
-                    "rating": 4.4,
-                    "price_level": 3
-                }
-                ]
-            },
-            "2": {
-                "Elephanta Caves": [
-                {
-                    "name": "MTDC Elephanta Resort and Chalukya Restaurant",
-                    "latitude": 18.9641626,
-                    "longitude": 72.9306103,
-                    "rating": 3.6,
-                    "price_level": "N/A"
-                },
-                {
-                    "name": "Elephanta Forest Canteen",
-                    "latitude": 18.9646237,
-                    "longitude": 72.9305844,
-                    "rating": 4.5,
-                    "price_level": "N/A"
-                }
-                ],
-                "Bandra-Worli Sea Link": [
-                {
-                    "name": "Slink & Bardot",
-                    "latitude": 19.017247,
-                    "longitude": 72.81752100000001,
-                    "rating": 4.8,
-                    "price_level": 3
-                },
-                {
-                    "name": "Sea Corner",
-                    "latitude": 19.0163379,
-                    "longitude": 72.8180658,
-                    "rating": 4.1,
-                    "price_level": 2
-                }
-                ],
-                "Juhu Beach": [
-                {
-                    "name": "Facing East",
-                    "latitude": 19.1101743,
-                    "longitude": 72.8273516,
-                    "rating": 4.2,
-                    "price_level": 2
-                },
-                {
-                    "name": "GRILLS N SHAKES",
-                    "latitude": 19.1075516,
-                    "longitude": 72.8260655,
-                    "rating": 4.1,
-                    "price_level": 2
-                }
-                ]
-            }
-            }
-                        """
-
-            nearby_restaurants = json.loads(nearby_restaurants_str)
+            # Gemini model configuration for creating descriptions
             api_key = os.getenv("GOOGLE_PRE_PLAN_API_KEY")
             if not api_key:
                 return Response(
@@ -479,122 +86,29 @@ class Preplan(APIView):
                 generation_config=generation_config,
                 # safety_settings = Adjust safety settings
                 # See https://ai.google.dev/gemini-api/docs/safety-settings
-                system_instruction='Role: You are an intelligent travel planner.\n\nObjective: Integrate the best matching restaurants from a provided list of nearby options into an existing itinerary based on user preferences. You will receive two JSON objects: "nearby_restaurants" and "response_data". Always suggest unique restaurants only.\n\n### Input Details: ###\n\n1. nearby_restaurants: A JSON object containing lists of restaurants near each place the user is visiting. Each restaurant has a description, TOE (Time of Exploration), and latitude and longitude information.\n\n2. response_data: A JSON object representing the user\'s itinerary, where you will integrate the best matching restaurants.\n\n### Task: ###\n\n1. Select Restaurants:\nBy default, recommend the best-rated and cheapest restaurant.\nIntegrate the selected restaurants into the appropriate places in the "response_data".\n\n\nOutput: Provide only the updated "response_data" JSON. Ensure that the JSON is correctly structured without any bad escaped characters.\n\n### GENERAL STRUCTURE ###\n\n{\n  "response_data": {\n    "1": [\n      {\n        "place_name": <Place_one>,\n        "description": "val1",\n        "TOE": "val2",\n        "lat_long": "lat,long"\n      },\n      {\n        "restaurant_name": <Restaurant near to the Place_one>,\n        "description": "<A short description related to the restaurant>",\n        "TOE": "val2",\n        "lat_long": "lat,long"\n      },\n      {\n        "place_name": <Place_two>,\n        "description": "val1",\n        "TOE": "val2",\n        "lat_long": "lat,long"\n      },\n{\n        "place_name": <Place_three>,\n        "description": "val1",\n        "TOE": "val2",\n        "lat_long": "lat,long"\n      },\n{\n        "restaurant_name": <Restaurant near to the Place_three>,\n        "description": "<A short description related to the restaurant",\n        "TOE": "val2",\n        "lat_long": "lat,long"\n      },\n\n    ],\n    "day_2": [\n      ...\n    ]\n  }\n}\n\n\n### Guidelines: ###\n\n1. Ensure the selected restaurants are close to the places in the itinerary.\n2. Maintain the correct structure and format of the JSON.\n3. Avoid any bad escaped characters.\n\n'
+                system_instruction=DESCRIPTION_PROMPT
             )
-
-            generation_config_places_description = {
-                "temperature": 0.5,
-                "top_p": 0.95,
-                "top_k": 64,
-                "max_output_tokens": 8192,
-                "response_mime_type": "text/plain",
-            }
-            places_description = genai.GenerativeModel(
-                model_name="gemini-1.5-flash",
-                generation_config=generation_config_places_description,
-                # safety_settings = Adjust safety settings
-                # See https://ai.google.dev/gemini-api/docs/safety-settings
-                system_instruction="You will receive the places name, your job is to write a short description about it. It will be used to give a overview of the city. The description should be under 40 words and just one sentence.",
-            )
-
-            places_description_response = places_description.generate_content(
-                stay_details
-            ).text
-
-            concatenated_input = f"nearby_restaurant: {nearby_restaurants}\nresponse_data: {formatted_output}"
-            response = model.generate_content(concatenated_input)
-            response_data = response.text
-
+            
+            # Formulating the input to the model.
+            concatenated_input = f"Tourist Places: {places}\n Nearby Restaurants: {restaurants}"
+            places_description_response = model.generate_content(concatenated_input).text
+            
+            final_plan = inject_descriptions(updated_grouped_attractions,places_description_response)
+            
             response = {
                 "user_id": user_id,
                 "stay_details": stay_details,
                 "number_of_days": number_of_days,
                 "budget": budget,
                 "additional_preferences": additional_preferences,
-                "response_data": response_data
+                "response_data": final_plan
             }
-            
-            self.insert_trip_details(
-                user_id,
-                stay_details,
-                number_of_days,
-                budget,
-                additional_preferences,
-                response_data,
-                nearby_restaurants,
-                places_description_response,
-            )
             return Response(response, status=status.HTTP_201_CREATED)
         except Exception as e:
             return Response(
                 {"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
-
-
-class GenerateFinalPlan(APIView):
-    """
-    API view for generating an itinerary based on user information.
-
-    This view handles the POST request and generates an itinerary based on the provided user information.
-    The itinerary includes details such as nearby restaurants, ensuring a comprehensive plan for the user's trip.
-
-    """
-
-    
-
-    
-    
-
-    def post(self, request):
-        try:
-            user_id = request.data.get("user_id")
-            stay_details = request.data.get("stay_details")
-            number_of_days = request.data.get("number_of_days")
-            budget = request.data.get("budget")
-            additional_preferences = request.data.get("additional_preferences")
-            response_raw = request.data.get("response_data")
-            # Correctly parse the JSON string
-            response_raw_dict = json.loads(response_raw.replace("'", "\""))
-            print("DOUNE", response_raw_dict)
-            lat_long_values = self.extract_lat_long(response_raw_dict)
-            # nearby_restaurants = self.fetch_nearby_restaurants(lat_long_values, budget)
-            
-
-            
-            
-
-    
-
-            genai.configure(api_key=os.environ["GOOGLE_GENERATE_PLAN_API_KEY"])
-            generation_config = {
-                "temperature": 0.5,
-                "top_p": 0.95,
-                "top_k": 64,
-                "max_output_tokens": 8192,
-                "response_mime_type": "application/json",
-            }
-
-            model = genai.GenerativeModel(
-                model_name="gemini-1.5-pro",
-                generation_config=generation_config,
-                # safety_settings = Adjust safety settings
-                # See https://ai.google.dev/gemini-api/docs/safety-settings
-                system_instruction='Role: You are an intelligent travel planner.\n\nObjective: Integrate the best matching restaurants from a provided list of nearby options into an existing itinerary based on user preferences. You will receive two JSON objects: "nearby_restaurants" and "response_data". Always suggest unique restaurants only.\n\n### Input Details: ###\n\n1. nearby_restaurants: A JSON object containing lists of restaurants near each place the user is visiting. Each restaurant has a description, TOE (Time of Exploration), and latitude and longitude information.\n\n2. response_data: A JSON object representing the user\'s itinerary, where you will integrate the best matching restaurants.\n\n### Task: ###\n\n1. Select Restaurants:\nBy default, recommend the best-rated and cheapest restaurant.\nIntegrate the selected restaurants into the appropriate places in the "response_data".\n\n\nOutput: Provide only the updated "response_data" JSON. Ensure that the JSON is correctly structured without any bad escaped characters.\n\n### GENERAL STRUCTURE ###\n\n{\n  "response_data": {\n    "1": [\n      {\n        "place_name": <Place_one>,\n        "description": "val1",\n        "TOE": "val2",\n        "lat_long": "lat,long"\n      },\n      {\n        "restaurant_name": <Restaurant near to the Place_one>,\n        "description": "<A short description related to the restaurant>",\n        "TOE": "val2",\n        "lat_long": "lat,long"\n      },\n      {\n        "place_name": <Place_two>,\n        "description": "val1",\n        "TOE": "val2",\n        "lat_long": "lat,long"\n      },\n{\n        "place_name": <Place_three>,\n        "description": "val1",\n        "TOE": "val2",\n        "lat_long": "lat,long"\n      },\n{\n        "restaurant_name": <Restaurant near to the Place_three>,\n        "description": "<A short description related to the restaurant",\n        "TOE": "val2",\n        "lat_long": "lat,long"\n      },\n\n    ],\n    "day_2": [\n      ...\n    ]\n  }\n}\n\n\n### Guidelines: ###\n\n1. Ensure the selected restaurants are close to the places in the itinerary.\n2. Maintain the correct structure and format of the JSON.\n3. Avoid any bad escaped characters.\n\n'
-            )
-            response_merged = model.generate_content(str(response_raw))
-
-            response_data_unmerged = response_merged.text
-            
-
-            
-
-            return Response(response_data_unmerged, status=status.HTTP_201_CREATED)
-        except Exception as e:
-            return Response(
-                {"error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR
-            )
-
-
+        
 class FetchTripDetails(APIView):
     """
     API view to fetch all trip details for a user.

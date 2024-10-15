@@ -1,0 +1,99 @@
+
+tourist_attractions = [
+    {
+        "name": "Mahakali Caves",
+        "latitude": 19.1300798,
+        "longitude": 72.8731738,
+    },
+    {
+        "name": "Chhatrapati Shivaji Maharaj Vastu Sangrahalaya",
+        "latitude": 18.9269015,
+        "longitude": 72.83269159999999,
+    },
+    {
+        "name": "Kanheri Caves",
+        "latitude": 19.2078604,
+        "longitude": 72.9048071,
+    },
+    {
+        "name": "Jogeshwari Caves",
+        "latitude": 19.138957,
+        "longitude": 72.857173,
+    },
+    {
+        "name": "Elephanta Caves",
+        "latitude": 18.9633474,
+        "longitude": 72.9314864,
+    },
+    {"name": "Shiv Fort", "latitude": 19.0465923, "longitude": 72.8676819},
+    {
+        "name": "Gateway Of India Mumbai",
+        "latitude": 18.9219841,
+        "longitude": 72.8346543,
+    },
+    {
+        "name": "Mumbai selfie point juhu",
+        "latitude": 19.1039685,
+        "longitude": 72.8299892,
+    },
+    {
+        "name": "जुहू चौपाटी",
+        "latitude": 19.0977745,
+        "longitude": 72.82623579999999,
+    },
+    {
+        "name": "Madh Island",
+        "latitude": 19.1484913,
+        "longitude": 72.7891606,
+    },
+    {
+        "name": "Powai dam",
+        "latitude": 19.1268449,
+        "longitude": 72.89637859999999,
+    },
+    {
+        "name": "Hanging Gardens",
+        "latitude": 18.9565598,
+        "longitude": 72.80498659999999,
+    },
+    {
+        "name": "Shivadi fort",
+        "latitude": 19.0006679,
+        "longitude": 72.86012649999999,
+    },
+    {
+        "name": "Dharavi Slum Tour",
+        "latitude": 19.0407028,
+        "longitude": 72.84608810000002,
+    },
+    {
+        "name": "Snow World",
+        "latitude": 19.0866203,
+        "longitude": 72.88854979999999,
+    },
+    {"name": "Fort George", "latitude": 18.9412338, "longitude": 72.838527},
+    {
+        "name": "Sanjay Gandhi National Park",
+        "latitude": 19.2204535,
+        "longitude": 72.9128422,
+    },
+    {
+        "name": "Chhota Kashmir Boat Club",
+        "latitude": 19.1623258,
+        "longitude": 72.8731143,
+    },
+    {
+        "name": "Bandra Sea View",
+        "latitude": 19.061267,
+        "longitude": 72.821968,
+    },
+    {
+        "name": "Mahajan Forest Park",
+        "latitude": 19.1136329,
+        "longitude": 72.90899999999999,
+    },
+]
+
+
+
+restaurants = [{'name': 'Delhi Darbar', 'latitude': 18.9238178, 'longitude': 72.8317462, 'rating': 4, 'price_level': 2}, {'name': 'Flavors Cafe at The Ambassador', 'latitude': 18.9338036, 'longitude': 72.82486999999999, 'rating': 4.1, 'price_level': 3}, {'name': 'Bademiya', 'latitude': 18.9232359, 'longitude': 72.83252259999999, 'rating': 3.7, 'price_level': 2}, {'name': 'Woodside Inn', 'latitude': 18.9248583, 'longitude': 72.8318556, 'rating': 4.5, 'price_level': 2}, {'name': '5 Spice', 'latitude': 18.9334885, 'longitude': 72.8357669, 'rating': 3.8, 'price_level': 2}, {'name': 'Subway', 'latitude': 18.938368, 'longitude': 72.8330572, 'rating': 4, 'price_level': 2}, {'name': 'Royal China', 'latitude': 18.9384896, 'longitude': 72.8328156, 'rating': 4.4, 'price_level': 3}, {'name': 'Amrapali Bar and Restaurant & Bar', 'latitude': 18.9302832, 'longitude': 72.831695, 'rating': 3.9, 'price_level': 2}, {'name': 'The J', 'latitude': 18.930182, 'longitude': 72.82675979999999, 'rating': 4.2, 'price_level': 2}, {'name': 'Hotel Fountain Plaza', 'latitude': 18.9354321, 'longitude': 72.8347235, 'rating': 4.1, 'price_level': 2}, {'name': 'Leopold Cafe', 'latitude': 18.9226402, 'longitude': 72.8316401, 'rating': 4.2, 'price_level': 3}]

@@ -2,8 +2,7 @@
 from django.urls import include, path
 from rest_framework import routers
 from .views import (
-    Preplan,
-    GenerateFinalPlan,
+    GeneratePlan,
     FetchTripDetails,
     FetchPlan,
     UpdateUserTripProgress,
@@ -19,8 +18,7 @@ router = routers.DefaultRouter()
 
 urlpatterns = [
     path("", include(router.urls)),
-    path("pre-plan-trip/", Preplan.as_view(), name="pre-plan-trip"),
-    path("generate-trip/", GenerateFinalPlan.as_view(), name="generate-trip"),
+    path("generate-trip/", GeneratePlan.as_view(), name="generate-trip"),
     path("fetch-trip-details/", FetchTripDetails.as_view(), name="fetch-trip-details"),
     path("fetch-plan/", FetchPlan.as_view(), name="fetch-plan"),
     path("update-progress/", UpdateUserTripProgress.as_view(), name="update-progress"),
